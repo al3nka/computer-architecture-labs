@@ -1,0 +1,16 @@
+cflags = -Wall
+
+
+rule cc
+  command = g++ $cflags -c $in -o $out
+
+rule createlib
+  command = ar cr $out $in
+
+rule makemain
+  command = g++ $in -L. -lcalculator -o $out
+
+build calculator.o: cc calculator.cpp
+build libcalculator.a: createlib calculator.o
+build interface.o: cc interface.cpp
+build main: makemain interface.o
